@@ -6,11 +6,7 @@ async function insertMovie(req: Request, res: Response) {
     const {name, genre} = req.body as Movie;
 
     try {
-        console.log('chegou aqui');
-        const newMovie = await addMovie({name, genre});
-
-        console.log(newMovie);
-
+        await addMovie({name, genre});
         return res.sendStatus(201);
 
     } catch (error) {
