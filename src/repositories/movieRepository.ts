@@ -11,4 +11,8 @@ async function getMovies(): Promise<QueryResult<MovieEntity>> {
     return await connection.query(`SELECT * FROM movies`);
 }
 
-export { addMovie, getMovies};
+async function removeMovie(id: number): Promise<QueryResult<MovieEntity>> {
+    return await connection.query(`DELETE FROM movies WHERE id = $1`, [id]);
+}
+
+export { addMovie, getMovies, removeMovie};
