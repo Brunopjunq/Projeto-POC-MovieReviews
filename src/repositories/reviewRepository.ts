@@ -19,5 +19,15 @@ async function updateReview(id: number, review: string): Promise<QueryResult> {
     return await connection.query(`UPDATE reviews SET review = $1 WHERE id = $2`, [review, id]);
 }
 
+async function getTrendingMovies(): Promise<QueryResult> {
+    const result = await connection.query(
+        `SELECT movies.name,
+        COUNT(reviews) AS "numbersOfReviews"
+        FROM movies
+        JOIN reviews ON reviews."movieId" = movies.id
+        GROUP BY movies.name ORDER BY "numbersOfReviews" DESC LIMIT 10;`);
 
-export { addReview, getReviews, removeReview, updateReview};
+        return result;
+}
+
+export { addReview, getReviews, removeReview, updateReview, getTrendingMovies};

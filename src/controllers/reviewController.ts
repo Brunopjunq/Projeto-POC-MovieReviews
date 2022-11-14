@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Review, ReviewEntity } from "../protocols/review.js";
-import { addReview, getReviews, removeReview, updateReview } from "../repositories/reviewRepository.js";
+import { addReview, getReviews, getTrendingMovies, removeReview, updateReview } from "../repositories/reviewRepository.js";
 
 async function insertReview(req: Request, res: Response) {
     const {userName, movieId, review} = req.body as Review;
@@ -52,5 +52,16 @@ async function updateReviews(req: Request, res: Response) {
     }
 }
 
+async function getAllTrendingReviews(req: Request, res: Response) {
+    try {
+        const AllTrendingReviews: ReviewEntity[] = (await getTrendingMovies()).rows;
 
-export {insertReview, getAllReviews, deleteReview, updateReviews};
+        return res.send(AllTrendingReviews);
+
+    } catch (error) {
+        res.sendStatus(500);
+        console.log(error);
+    }
+}
+
+export {insertReview, getAllReviews, deleteReview, updateReviews, getAllTrendingReviews};
