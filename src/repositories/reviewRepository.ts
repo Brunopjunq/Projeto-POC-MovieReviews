@@ -11,4 +11,8 @@ async function getReviews(): Promise<QueryResult<ReviewEntity>> {
     return await connection.query(`SELECT * FROM reviews`);
 }
 
-export { addReview, getReviews};
+async function removeReview(id: number): Promise<QueryResult<ReviewEntity>> {
+    return await connection.query(`DELETE FROM reviews WHERE id = $1`, [id]);
+}
+
+export { addReview, getReviews, removeReview};

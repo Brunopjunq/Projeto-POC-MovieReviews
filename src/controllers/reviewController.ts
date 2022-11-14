@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Review, ReviewEntity } from "../protocols/review.js";
-import { addReview, getReviews } from "../repositories/reviewRepository.js";
+import { addReview, getReviews, removeReview } from "../repositories/reviewRepository.js";
 
 async function insertReview(req: Request, res: Response) {
     const {userName, movieId, review} = req.body as Review;
@@ -27,4 +27,16 @@ async function getAllReviews(req: Request, res: Response) {
     }
 }
 
-export {insertReview, getAllReviews};
+async function deleteReview(req: Request, res: Response) {
+    const {id} = req.params;
+    
+    try {
+        await removeReview(Number(id));
+        return res.status(200).send("Review Deleted");
+    } catch (error) {
+        res.sendStatus(500);
+        console.log(error);
+    }
+}
+
+export {insertReview, getAllReviews, deleteReview};
